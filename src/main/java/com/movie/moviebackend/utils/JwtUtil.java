@@ -1,5 +1,4 @@
 package com.movie.moviebackend.utils;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

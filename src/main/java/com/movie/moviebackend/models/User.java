@@ -46,6 +46,20 @@ public class User {
     private String profileUrl;
 
 
+
+    @Column(name = "movies_rated")
+    @OneToMany
+    private Set<Movie> moviesRated = new HashSet<>();
+
+    @Column(name = "movie_seen")
+    @OneToMany
+    private Set<Movie> moviesSeen = new HashSet<>();
+
+    @Column(name = "favorite_movie")
+    @OneToMany
+    private Set<Movie> favoriteMovie = new HashSet<>();
+
+
     public String getUsername() {
         return username;
     }
@@ -98,4 +112,43 @@ public class User {
         this.authorities.remove(authority);
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getProfileUrl() {
+        return profileUrl;
+    }
+
+    public void setProfileUrl(String profileUrl) {
+        this.profileUrl = profileUrl;
+    }
+
+    public Set<Movie> getMoviesRated() {
+        return moviesRated;
+    }
+
+    public void setMoviesRated(Set<Movie> moviesRated) {
+        this.moviesRated = moviesRated;
+    }
+
+    public Set<Movie> getMoviesSeen() {
+        return moviesSeen;
+    }
+
+    public void setMoviesSeen(Set<Movie> moviesSeen) {
+        this.moviesSeen = moviesSeen;
+    }
+
+    public Set<Movie> getFavoriteMovie() {
+        return favoriteMovie;
+    }
+
+    public void setFavoriteMovie(Set<Movie> favoriteMovie) {
+        this.favoriteMovie = favoriteMovie;
+    }
 }
