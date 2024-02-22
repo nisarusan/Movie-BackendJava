@@ -5,6 +5,7 @@ import com.movie.moviebackend.dtos.MovieDto;
 import com.movie.moviebackend.dtos.UserDto;
 import com.movie.moviebackend.exceptions.BadRequestException;
 import com.movie.moviebackend.services.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -105,21 +106,24 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    //Set the Favorite Movies
-    @PostMapping("/{username}/favoritemovies")
-    public ResponseEntity<Void> addFavoriteMovie(
-            @PathVariable String username,
-            @RequestBody MovieDto movieDto) {
-        userService.setFavoriteMovie(username, movieDto.title);
+    //set favorite movies
+    @PostMapping("/{userId}/favorite-movies")
+    public ResponseEntity<Void> setUserFavoriteMovies(
+            @PathVariable String userId,
+            @RequestBody Set<MovieDto> favoriteMovies) {
+
+        // Call the service method with the user ID and MovieDto set
+        userService.addFavoriteMovies(userId, favoriteMovies);
+
         return ResponseEntity.ok().build();
     }
 
-    //Get the Favorite Movie List of User
+    //get favorite movies
 
-    @GetMapping("/{username}/favoritemovies")
-    public ResponseEntity<Set<MovieDto>> getUserFavoriteMovies(@PathVariable String username) {
+    @GetMapping("/{userId}/favorite-movies")
+    public ResponseEntity<Set<MovieDto>> getUserFavoriteMovies(@PathVariable String userId) {
         // Call the service method to retrieve the user's favorite movies
-        Set<MovieDto> favoriteMovies = userService.getUserFavoriteMovies(username);
+        Set<MovieDto> favoriteMovies = userService.getUserFavoriteMovies(userId);
 
         // Check if the user exists
         if (favoriteMovies != null) {
@@ -129,5 +133,63 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    //Remove a specific Favorite Movie
+    @DeleteMapping("/{userId}/favorite-movies")
+    public ResponseEntity<UserDto> removeFavoriteMovies(
+            @PathVariable String userId,
+            @RequestBody Set<MovieDto> moviesToRemove) {
+        try {
+            UserDto updatedUser = userService.removeFavoriteMovies(userId, moviesToRemove);
+            return ResponseEntity.ok(updatedUser);
+        } catch (RuntimeException e) {
+            // Handle exception, e.g., user not found or other business logic errors
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+
+    //set Seen movies
+    @PostMapping("/{userId}/seen-movies")
+    public ResponseEntity<Void> setUserSeenMovies(
+            @PathVariable String userId,
+            @RequestBody Set<MovieDto> seenMovies) {
+
+        // Call the service method with the user ID and MovieDto set
+        userService.addSeenMovies(userId, seenMovies);
+
+        return ResponseEntity.ok().build();
+    }
+
+    //get Seen movies
+
+    @GetMapping("/{userId}/seen-movies")
+    public ResponseEntity<Set<MovieDto>> getUserSeenMovies(@PathVariable String userId) {
+        // Call the service method to retrieve the user's favorite movies
+        Set<MovieDto> seenMovies = userService.getUserSeenMovies(userId);
+
+        // Check if the user exists
+        if (seenMovies != null) {
+            return ResponseEntity.ok(seenMovies);
+        } else {
+            // Return 404 Not Found if the user is not found
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    //Remove a specific Seen Movie
+    @DeleteMapping("/{userId}/seen-movies")
+    public ResponseEntity<UserDto> removeSeenMovies(
+            @PathVariable String userId,
+            @RequestBody Set<MovieDto> moviesToRemove) {
+        try {
+            UserDto updatedUser = userService.removeSeenMovies(userId, moviesToRemove);
+            return ResponseEntity.ok(updatedUser);
+        } catch (RuntimeException e) {
+            // Handle exception, e.g., user not found or other business logic errors
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
 
 }

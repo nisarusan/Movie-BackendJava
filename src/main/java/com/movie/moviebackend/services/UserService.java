@@ -145,38 +145,67 @@ public class UserService {
 
 
     //Set favorite movie for user
-    public void setFavoriteMovie(String userName, String movieTitle) {
-        // Fetch the user by username from the repository
-        User user = userRepository.findByUsername(userName);
+    public UserDto addFavoriteMovies(String userId, Set<MovieDto> newFavoriteMovies) {
+        User existingUser = userRepository.findById(userId).orElse(null);
 
-        if (user == null) {
-            // Handle the case where the user is not found
-            throw new UsernameNotFoundException("User not found with username: " + userName);
+        if (existingUser != null) {
+            // Convert MovieDto objects to Movie entities
+            Set<Movie> newFavoriteMovieEntities = newFavoriteMovies.stream()
+                    .map(movieDto -> movieService.getMovieById(movieDto.id))
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toSet());
+
+            // Get the current set of favorite movies
+            Set<Movie> currentFavoriteMovies = existingUser.getFavoriteMovie();
+
+            // Add the new movies to the existing set
+            currentFavoriteMovies.addAll(newFavoriteMovieEntities);
+
+            existingUser.setFavoriteMovie(currentFavoriteMovies);
+
+            // Ensure that the user ID is not null
+            if (existingUser.getUsername() != null) {
+                userRepository.save(existingUser);
+                return fromUser(existingUser);
+            } else {
+                throw new RuntimeException("User ID is null after adding favorite movies.");
+            }
+        } else {
+            throw new RuntimeException("User not found with ID: " + userId);
         }
-
-        // Find the movie by title
-        Movie movie = movieRepository.findByTitle(movieTitle);
-//
-//        if (movie == null) {
-//            // Handle the case where the movie is not found
-//            throw new MovieNotFoundException("Movie not found with title: " + movieTitle);
-//        }
-
-        // Add the movie to the user's favorite movies
-        user.getFavoriteMovie().add(movie);
-
-        // Save the updated user in the repository
-        userRepository.save(user);
     }
 
-    private Movie mapToMovieEntity(MovieDto movieDto) {
-        Movie movie = new Movie();
-        movie.setId(movieDto.id);
-        movie.setTitle(movieDto.title);
-        // Map other fields as needed
-        return movie;
-    }
 
+    //Remove a Favorite Movie out of your profile
+    public UserDto removeFavoriteMovies(String userId, Set<MovieDto> moviesToRemove) {
+        User existingUser = userRepository.findById(userId).orElse(null);
+
+        if (existingUser != null) {
+            // Convert MovieDto objects to Movie entities
+            Set<Movie> moviesToRemoveEntities = moviesToRemove.stream()
+                    .map(movieDto -> movieService.getMovieById(movieDto.id))
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toSet());
+
+            // Get the current set of favorite movies
+            Set<Movie> currentFavoriteMovies = existingUser.getFavoriteMovie();
+
+            // Remove the specified movies from the existing set
+            currentFavoriteMovies.removeAll(moviesToRemoveEntities);
+
+            existingUser.setFavoriteMovie(currentFavoriteMovies);
+
+            // Ensure that the user ID is not null
+            if (existingUser.getUsername() != null) {
+                userRepository.save(existingUser);
+                return fromUser(existingUser);
+            } else {
+                throw new RuntimeException("User ID is null after removing favorite movies.");
+            }
+        } else {
+            throw new RuntimeException("User not found with ID: " + userId);
+        }
+    }
     // Get favorite movies for a user
     public Set<MovieDto> getUserFavoriteMovies(String userName) {
         User existingUser = userRepository.findById(userName).orElse(null);
@@ -190,6 +219,93 @@ public class UserService {
             throw new RuntimeException("User not found with ID: " + userName);
         }
     }
+
+
+    //Set favorite movie for user
+    public UserDto addSeenMovies(String userId, Set<MovieDto> newSeenMovies) {
+        User existingUser = userRepository.findById(userId).orElse(null);
+
+        if (existingUser != null) {
+            // Convert MovieDto objects to Movie entities
+            Set<Movie> newSeenMovieEntities = newSeenMovies.stream()
+                    .map(movieDto -> movieService.getMovieById(movieDto.id))
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toSet());
+
+            // Get the current set of favorite movies
+            Set<Movie> currentFavoriteMovies = existingUser.getMoviesSeen();
+
+            // Add the new movies to the existing set
+            currentFavoriteMovies.addAll(newSeenMovieEntities);
+
+            existingUser.setMoviesSeen(currentFavoriteMovies);
+
+            // Ensure that the user ID is not null
+            if (existingUser.getUsername() != null) {
+                userRepository.save(existingUser);
+                return fromUser(existingUser);
+            } else {
+                throw new RuntimeException("User ID is null after adding favorite movies.");
+            }
+        } else {
+            throw new RuntimeException("User not found with ID: " + userId);
+        }
+    }
+
+
+    //Remove a Favorite Movie out of your profile
+    public UserDto removeSeenMovies(String userId, Set<MovieDto> moviesToRemove) {
+        User existingUser = userRepository.findById(userId).orElse(null);
+
+        if (existingUser != null) {
+            // Convert MovieDto objects to Movie entities
+            Set<Movie> moviesToRemoveEntities = moviesToRemove.stream()
+                    .map(movieDto -> movieService.getMovieById(movieDto.id))
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toSet());
+
+            // Get the current set of favorite movies
+            Set<Movie> currentSeenMovies = existingUser.getMoviesSeen();
+
+            // Remove the specified movies from the existing set
+            currentSeenMovies.removeAll(moviesToRemoveEntities);
+
+            existingUser.setMoviesSeen(currentSeenMovies);
+
+            // Ensure that the user ID is not null
+            if (existingUser.getUsername() != null) {
+                userRepository.save(existingUser);
+                return fromUser(existingUser);
+            } else {
+                throw new RuntimeException("User ID is null after removing favorite movies.");
+            }
+        } else {
+            throw new RuntimeException("User not found with ID: " + userId);
+        }
+    }
+    // Get seen movies for a user
+    public Set<MovieDto> getUserSeenMovies(String userName) {
+        User existingUser = userRepository.findById(userName).orElse(null);
+
+        if (existingUser != null) {
+            // Map the favorite movies to MovieDto
+            return existingUser.getMoviesSeen().stream()
+                    .map(movieService::movieDto)
+                    .collect(Collectors.toSet());
+        } else {
+            throw new RuntimeException("User not found with ID: " + userName);
+        }
+    }
+
+    private Movie mapToMovieEntity(MovieDto movieDto) {
+        Movie movie = new Movie();
+        movie.setId(movieDto.id);
+        movie.setTitle(movieDto.title);
+        // Map other fields as needed
+        return movie;
+    }
+
+
 
     //User to Dto mapping;
     public static UserDto fromUser(User user){
