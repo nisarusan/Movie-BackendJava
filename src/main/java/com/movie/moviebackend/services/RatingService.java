@@ -32,15 +32,11 @@ public class RatingService {
     }
 
     // User Rate a movie
-    public void rateMovie(String username, Long movieId, double rating) {
+    public ResponseEntity<Set<Rating>> rateMovie(String username, Long movieId, double rating) {
         User existingUser = userRepos.findById(username).orElse(null);
         Movie existingMovie = movieService.getMovieById(movieId);
 
         if (existingUser != null && existingMovie != null) {
-            // Check if the user has already rated the movie
-            if (existingUser.getMoviesRated().stream().anyMatch(movie -> movie.getId().equals(movieId))) {
-                throw new RuntimeException("User has already rated this movie.");
-            }
 
             // Create a new Rating entity
             Rating newRating = new Rating();
@@ -49,17 +45,29 @@ public class RatingService {
             newRating.setRating(rating);
 
             // Add the new rating to the user's set of rated movies
-            existingUser.getMoviesRated().add(existingMovie);
             existingUser.getRatings().add(newRating);
 
-            // Save the changes
+            // Save the changes first time
+            // We do this because the second one have a unqiue primary key and it can only be one time rated for the rated list
             userRepos.save(existingUser);
+
+            // Check if the user has already rated the movie
+            if (existingUser.getMoviesRated().stream().anyMatch(movie -> movie.getId().equals(movieId))) {
+                throw new RuntimeException("User has already rated this movie.");
+            } else {
+                existingUser.getMoviesRated().add(existingMovie);
+            }
+
+            // In case the user didn't been rated yet, it will save him now;
+            userRepos.save(existingUser);
+
         } else {
             throw new RuntimeException("User or Movie not found with provided IDs.");
         }
+        return ResponseEntity.ok().body(existingUser.getRatings());
     }
 
-
+    //get the rating of a movie
     public ResponseEntity<Rating> getRatingOfMovie(String username, Long movieId) {
         User existingUser = userRepos.findById(username).orElse(null);
         Movie existingMovie = movieService.getMovieById(movieId);
@@ -96,7 +104,7 @@ public class RatingService {
         }
     }
 
-    //Get all Ratings for a Movie
+    //Get average rating for a Movie based on all user's input for the movie
     public ResponseEntity<Double> getAverageRatingForMovie(Long movieId) {
         Movie existingMovie = movieService.getMovieById(movieId);
 
