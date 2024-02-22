@@ -1,6 +1,4 @@
 package com.movie.moviebackend.controllers;
-
-
 import com.movie.moviebackend.dtos.MovieDto;
 import com.movie.moviebackend.dtos.UserDto;
 import com.movie.moviebackend.exceptions.BadRequestException;
@@ -29,7 +27,6 @@ public class UserController {
         this.passwordEncoder = passwordEncoder;
     }
 
-
     //Get all Users
     @GetMapping(value = "")
     public ResponseEntity<List<UserDto>> getUsers() {
@@ -44,8 +41,6 @@ public class UserController {
     public ResponseEntity<UserDto> getUser(@PathVariable("username") String username) {
 
         UserDto optionalUser = userService.getUser(username);
-
-
         return ResponseEntity.ok().body(optionalUser);
 
     }
@@ -71,7 +66,6 @@ public class UserController {
 
         return ResponseEntity.noContent().build();
     }
-
 
     //Delete User by Username Only accessible by role ADMIN
     @DeleteMapping(value = "/{username}")
@@ -190,6 +184,4 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
-
-
 }

@@ -1,6 +1,7 @@
 package com.movie.moviebackend.controllers;
 
 import com.movie.moviebackend.dtos.MovieDto;
+import com.movie.moviebackend.models.Genre;
 import com.movie.moviebackend.models.Movie;
 import com.movie.moviebackend.services.MovieService;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class MovieController {
@@ -48,6 +50,12 @@ public class MovieController {
         }
     }
 
-
-
+    //Set or Add Genre of the movie by ID notworking... Don't know how to fix this.
+    @PostMapping("/setgenre/{movieId}")
+    public ResponseEntity<MovieDto> setGenresForMovie(@PathVariable Long movieId, @RequestBody Set<Genre> genreNames) {
+        MovieDto updatedMovie = service.setGenresForMovie(movieId, genreNames);
+        return ResponseEntity.ok().body(updatedMovie);
+    }
 }
+
+

@@ -28,12 +28,12 @@ public class Movie {
     @Column(name = "release_date")
     LocalDate releaseDate;
 
-    @OneToMany
-////    @JoinTable(
-////            name = "movie_genres",
-////            joinColumns = @JoinColumn(name = "movie_id"),
-////            inverseJoinColumns = @JoinColumn(name = "genre_id")
-//    )
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "movie_genres",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id")
+    )
     private Set<Genre> genres = new HashSet<>();
 
 

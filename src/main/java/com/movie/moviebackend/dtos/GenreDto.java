@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 
 public class GenreDto {
     public Long id;
-    public String genre;
+    public String name;
     public Movie movies;
 
 }

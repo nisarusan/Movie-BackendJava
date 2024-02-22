@@ -45,6 +45,8 @@ public class User {
     @Column(name = "profile_url")
     private String profileUrl;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<Rating> ratings = new HashSet<>();
 
 
     @Column(name = "movies_rated")
@@ -150,5 +152,13 @@ public class User {
 
     public void setFavoriteMovie(Set<Movie> favoriteMovie) {
         this.favoriteMovie = favoriteMovie;
+    }
+
+    public Set<Rating> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(Set<Rating> ratings) {
+        this.ratings = ratings;
     }
 }

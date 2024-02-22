@@ -10,8 +10,12 @@ import com.movie.moviebackend.repositories.MovieRepository;
 import com.movie.moviebackend.repositories.UserRepository;
 import com.movie.moviebackend.utils.RandomStringGenerator;
 import io.micrometer.common.util.StringUtils;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -55,7 +59,7 @@ public class UserService {
     }
 
 
-//    Userexist
+//    User exist quick scan to check if exist
     public boolean userExists(String username) {
         return userRepository.existsById(username);
     }
@@ -79,7 +83,7 @@ public class UserService {
         return newUser.getUsername();
     }
 
-    //Delete user by String
+    //Delete user by String // Only admin can access this
     public void deleteUser(String username) {
         userRepository.deleteById(username);
     }
@@ -116,33 +120,6 @@ public class UserService {
         user.removeAuthority(authorityToRemove);
         userRepository.save(user);
     }
-
-    //User Rate a movie
-    public void rateMovie(String username, Long movieId, double rating) {
-        User existingUser = userRepository.findById(username).orElse(null);
-        Movie existingMovie = movieService.getMovieById(movieId);
-
-        if (existingUser != null && existingMovie != null) {
-            // Check if the user has already rated the movie
-            if (existingUser.getMoviesRated().stream().anyMatch(movie -> movie.getId().equals(movieId))) {
-                throw new RuntimeException("User has already rated this movie.");
-            }
-            // Create a new Rating entity
-            Rating newRating = new Rating();
-            newRating.setUser(existingUser);
-            newRating.setMovie(existingMovie);
-            newRating.setRating(rating);
-
-            // Add the new rating to the user's set of rated movies
-            existingUser.getMoviesRated().add(existingMovie);
-//            existingUser.getRatings().add(newRating);
-            // Save the changes
-            userRepository.save(existingUser);
-        } else {
-            throw new RuntimeException("User or Movie not found with provided IDs.");
-        }
-    }
-
 
     //Set favorite movie for user
     public UserDto addFavoriteMovies(String userId, Set<MovieDto> newFavoriteMovies) {
@@ -220,8 +197,7 @@ public class UserService {
         }
     }
 
-
-    //Set favorite movie for user
+    //Set Seen movie for user
     public UserDto addSeenMovies(String userId, Set<MovieDto> newSeenMovies) {
         User existingUser = userRepository.findById(userId).orElse(null);
 
@@ -232,13 +208,13 @@ public class UserService {
                     .filter(Objects::nonNull)
                     .collect(Collectors.toSet());
 
-            // Get the current set of favorite movies
-            Set<Movie> currentFavoriteMovies = existingUser.getMoviesSeen();
+            // Get the current set of seen movies
+            Set<Movie> currentSeenMovies = existingUser.getMoviesSeen();
 
             // Add the new movies to the existing set
-            currentFavoriteMovies.addAll(newSeenMovieEntities);
+            currentSeenMovies.addAll(newSeenMovieEntities);
 
-            existingUser.setMoviesSeen(currentFavoriteMovies);
+            existingUser.setMoviesSeen(currentSeenMovies);
 
             // Ensure that the user ID is not null
             if (existingUser.getUsername() != null) {
@@ -251,7 +227,6 @@ public class UserService {
             throw new RuntimeException("User not found with ID: " + userId);
         }
     }
-
 
     //Remove a Favorite Movie out of your profile
     public UserDto removeSeenMovies(String userId, Set<MovieDto> moviesToRemove) {
@@ -283,6 +258,7 @@ public class UserService {
             throw new RuntimeException("User not found with ID: " + userId);
         }
     }
+
     // Get seen movies for a user
     public Set<MovieDto> getUserSeenMovies(String userName) {
         User existingUser = userRepository.findById(userName).orElse(null);
@@ -297,18 +273,9 @@ public class UserService {
         }
     }
 
-    private Movie mapToMovieEntity(MovieDto movieDto) {
-        Movie movie = new Movie();
-        movie.setId(movieDto.id);
-        movie.setTitle(movieDto.title);
-        // Map other fields as needed
-        return movie;
-    }
-
-
 
     //User to Dto mapping;
-    public static UserDto fromUser(User user){
+    public UserDto fromUser(User user){
 
         var dto = new UserDto();
         dto.username = user.getUsername();

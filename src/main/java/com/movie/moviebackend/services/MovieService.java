@@ -1,27 +1,49 @@
 package com.movie.moviebackend.services;
 
 import com.movie.moviebackend.dtos.MovieDto;
+import com.movie.moviebackend.models.Genre;
 import com.movie.moviebackend.models.Movie;
 import com.movie.moviebackend.models.Rating;
+import com.movie.moviebackend.repositories.GenreRepository;
 import com.movie.moviebackend.repositories.MovieRepository;
 import com.movie.moviebackend.repositories.RatingRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class MovieService {
 
     private final MovieRepository repos;
     private final RatingRepository ratingRepos;
+    private final GenreRepository genreRepository;
 
-    public MovieService(MovieRepository repos, RatingRepository ratingRepos) {
+    public MovieService(MovieRepository repos, RatingRepository ratingRepos, GenreRepository genreRepository) {
         this.repos = repos;
         this.ratingRepos = ratingRepos;
+        this.genreRepository = genreRepository;
 
     }
+
+    // Set Genres for Movies, but only possible if u already have movie object
+    public MovieDto setGenresForMovie(Long movieId, Set<Genre> genres) {
+        Movie existingMovie = repos.findById(movieId).orElse(null);
+
+        if (existingMovie != null) {
+            existingMovie.setGenres(genres);
+            repos.save(existingMovie);
+
+            // Make it again a movieDto object
+            return movieDto(existingMovie);
+        } else {
+            throw new RuntimeException("Movie not found with ID: " + movieId);
+        }
+    }
+
+
+
+
 
     //add new movies
     public MovieDto addMovie(MovieDto movieDto) {
@@ -99,8 +121,26 @@ public class MovieService {
         movieDto.duration = movie.getDuration();
         return movieDto;
     }
+    // Movie DTO Mapper For a Set
+    public Set<MovieDto> setMovieDto(Set<Movie> movies) {
+        Set<MovieDto> movieDtos = new HashSet<>();
 
+        for (Movie movie : movies) {
+            MovieDto movieDto = new MovieDto();
+            movieDto.id = movie.getId();
+            movieDto.ratings = movie.getRatings();
+            movieDto.description = movie.getDescription();
+            movieDto.genres = movie.getGenres();
+            movieDto.director = movie.getDirector();
+            movieDto.imageUrl =  movie.getImageUrl();
+            movieDto.releaseDate = movie.getReleaseDate();
+            movieDto.title = movie.getTitle();
+            movieDto.duration = movie.getDuration();
+            movieDtos.add(movieDto);
+        }
 
+        return movieDtos;
+    }
     //Dto To User mapper
     public Movie dtoToMovie(MovieDto movieDto) {
         Movie movie = new Movie();

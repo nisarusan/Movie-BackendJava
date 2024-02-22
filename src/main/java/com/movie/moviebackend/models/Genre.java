@@ -2,6 +2,7 @@ package com.movie.moviebackend.models;
 
 import jakarta.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -9,20 +10,19 @@ import java.util.Set;
 public class Genre {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    private String genre;
+    @Column(name = "name", unique = true)
+    private String name;
 
-//    @ManyToMany(mappedBy = "genres")
-//    private Set<Movie> movies = new HashSet<>();
 
-    @ManyToOne
-    @JoinColumn(name = "movie_id")
-    private Movie movies;
+    //Needed for bidirectional relationship, i want to be able to retrieve movies associated with a genre easily
+    @ManyToMany(mappedBy = "genres")
+    private Set<Movie> movies = new HashSet<>();
 
-    // Constructors, getters, and setters
+
+
 
     public Long getId() {
         return id;
@@ -32,19 +32,13 @@ public class Genre {
         this.id = id;
     }
 
-    public String getGenre() {
-        return genre;
+    public String getName() {
+        return name;
     }
 
-    public void setGenre(String genre) {
-        this.genre = genre;
+    public void setName(String name) {
+
+        this.name = name;
     }
 
-    public Movie getMovies() {
-        return movies;
-    }
-
-    public void setMovies(Movie movies) {
-        this.movies = movies;
-    }
 }

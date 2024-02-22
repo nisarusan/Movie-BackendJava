@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 public class RatingDto {
     public Long id;
     public User user;
-    public Movie movie;
+    public UserDto userDto;
+    public Long movieId;
     public double rating;
 }
