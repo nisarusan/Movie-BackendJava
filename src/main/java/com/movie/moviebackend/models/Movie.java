@@ -37,7 +37,7 @@ public class Movie {
     private Set<Genre> genres = new HashSet<>();
 
 
-    @Column
+    @Lob
     String description;
 
     @Column
