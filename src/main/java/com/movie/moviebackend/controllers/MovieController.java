@@ -50,6 +50,19 @@ public class MovieController {
         }
     }
 
+    //Get Movie By ID
+    @GetMapping("/movie/{id}")
+    public ResponseEntity<MovieDto> getMovieById(@PathVariable Long id) {
+        MovieDto movieDto = service.getMovieByIdDto(id);
+
+        if (movieDto != null) {
+            return ResponseEntity.ok().body(movieDto);
+        } else {
+            // Movie not found, return a ResponseEntity with NOT_FOUND status
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     //Set or Add Genre of the movie by ID notworking... Don't know how to fix this.
     @PostMapping("/setgenre/{movieId}")
     public ResponseEntity<MovieDto> setGenresForMovie(@PathVariable Long movieId, @RequestBody Set<Genre> genreNames) {

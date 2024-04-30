@@ -74,10 +74,23 @@ public class MovieService {
         return movieDtoList;
     }
 
-    // Get Movie by ID
+    // Method to retrieve a Movie by ID
     public Movie getMovieById(Long id) {
         Optional<Movie> optionalMovie = repos.findById(id);
         return optionalMovie.orElse(null);
+    }
+
+
+    // Method to retrieve a MovieDto by ID
+    public MovieDto getMovieByIdDto(Long id) {
+        Optional<Movie> optionalMovie = repos.findById(id);
+
+        if (optionalMovie.isPresent()) {
+            Movie movie = optionalMovie.get();
+            return movieDto(movie);
+        } else {
+            return null; // Movie not found by ID, return null
+        }
     }
 
     //Search Movies by string title
