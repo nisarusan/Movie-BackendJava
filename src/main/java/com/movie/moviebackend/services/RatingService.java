@@ -83,21 +83,24 @@ public class RatingService {
 
     // Get all the rated movies list
     public Set<MovieDto> getRatedMoviesByUsername(String username) {
-        User existingUser = userRepos.findById(username).orElse(null);
+        // Retrieve the user from the repository
+        User existingUser = userRepos.findById(username)
+                .orElseThrow(() -> new RuntimeException("User not found with ID: " + username));
 
-        if (existingUser != null) {
-            // Get the set of rated movies for the user
-            Set<Movie> ratedMovies = existingUser.getMoviesRated();
+        // Get the set of ratings for the user
+        Set<Rating> userRatings = existingUser.getRatings();
 
-            // Convert Movie entities to MovieDto objects
-            Set<MovieDto> ratedMovieDtos = ratedMovies.stream()
-                    .map(movieService::movieDto)
-                    .collect(Collectors.toSet());
+        // Extract the movies from the ratings
+        Set<Movie> ratedMovies = userRatings.stream()
+                .map(Rating::getMovie)
+                .collect(Collectors.toSet());
 
-            return ratedMovieDtos;
-        } else {
-            throw new RuntimeException("User not found with ID: " + username);
-        }
+        // Convert Movie entities to MovieDto objects
+        Set<MovieDto> ratedMovieDtos = ratedMovies.stream()
+                .map(movieService::movieDto)
+                .collect(Collectors.toSet());
+
+        return ratedMovieDtos;
     }
 
     //Get average rating for a Movie based on all user's input for the movie
