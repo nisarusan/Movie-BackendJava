@@ -1,10 +1,8 @@
 
 
-INSERT INTO public.authorities (authority, username) VALUES ('ROLE_USER', 'Khalid');
-INSERT INTO public.authorities (authority, username) VALUES ('ROLE_USER', 'username');
-INSERT INTO public.authorities (authority, username) VALUES ('ROLE_USER', 'nisarusan');
-INSERT INTO public.authorities (authority, username) VALUES ('ROLE_USER', 'origami');
-INSERT INTO public.authorities (authority, username) VALUES ('ROLE_USER', 'arigato');
+INSERT INTO public.authorities (authority, username) VALUES ('ROLE_USER', 'user');
+INSERT INTO public.authorities (authority, username) VALUES ('ROLE_ADMIN', 'root');
+
 
 
 
@@ -35,9 +33,8 @@ INSERT INTO public.movie (id, description, director, duration, image_url, releas
 
 
 
-INSERT INTO public.users (username, address, apikey, email, enabled, password, profile_url) VALUES ('Khalid', NULL, 'VwcuRPKUdUGdr4gQvr2y', 'nizar.abak@live.nl', true, '$2a$10$pqdmEXALJGnaOPMNZNJM8u7.ZvlOjlIprz.XBMtGg48CNQETkuO8m', 'img');
-INSERT INTO public.users (username, address, apikey, email, enabled, password, profile_url) VALUES ('nisarusan', NULL, 'zABHj7TNpKp0dbbvTJM9', 'info@luisteren.nl', true, '$2a$10$n4fktiBPhogrqy1Tf805se5nDX7hl8vZFVzVgOjmVWZQNaxtHJKsq', 'empty');
-INSERT INTO public.users (username, address, apikey, email, enabled, password, profile_url) VALUES ('origami', NULL, 'vmenHozRg0xHs4354PAv', 'info@luisteren.nl', true, '$2a$10$DlpWJtOCEgz2oCJ6YatuQe8yTIKbGwHiqxRyUdJV2V6/wUdDRYG5i', 'empty');
+INSERT INTO public.users (username, address, apikey, email, enabled, password, profile_url) VALUES ('user', NULL, 'YEkL4NEWt6IpQOrA630x', 'user@user.nl', true, '$2a$10$LjhJTVjGm9vbw43c3I6bC.MpQbsUpOqpRDCDwBCMzkH6T/tf3RSBO', 'empty');
+INSERT INTO public.users (username, address, apikey, email, enabled, password, profile_url) VALUES ('root', NULL, 'J7B1Gj4fmJKH4GEAXZCs', 'root@root.nl', true, '$2a$10$aJPprhPLDaU4s8wEgg6i8.wtQpg1AUwwZRfk3CwlezsYrCXXFWYJC', 'empty');
 
 
 
@@ -46,13 +43,9 @@ INSERT INTO public.users (username, address, apikey, email, enabled, password, p
 
 
 
-INSERT INTO public.users_favorite_movie (user_username, favorite_movie_id) VALUES ('origami', 54);
-INSERT INTO public.users_favorite_movie (user_username, favorite_movie_id) VALUES ('origami', 58);
 
 
 
 
-INSERT INTO public.users_movies_seen (user_username, movies_seen_id) VALUES ('origami', 52);
-INSERT INTO public.users_movies_seen (user_username, movies_seen_id) VALUES ('origami', 1);
 
 
