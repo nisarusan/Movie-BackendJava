@@ -303,7 +303,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": 1,\n    \"name\": \"name\"\n}",
+					"raw": "{\n    \"apikey\": \"\",\n    \"username\": \"username\",\n    \"email\": \"testhotmail@hotmail.com\",\n    \"password\": \"test\",\n    \"address\": \"Hello\",\n    \"enabled\": \"true\",\n    \"profile_url\": \"2312351asdasd\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -311,14 +311,13 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/users/user",
+					"raw": "localhost:8080/users",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"users",
-						"user"
+						"users"
 					]
 				}
 			},
