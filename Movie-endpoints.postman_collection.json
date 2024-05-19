@@ -1,0 +1,549 @@
+{
+	"info": {
+		"_postman_id": "7fffd793-d757-4812-81c3-57d93731704b",
+		"name": "Movie-endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31064501"
+	},
+	"item": [
+		{
+			"name": "Add Genre",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 1,\n    \"name\": \"Adventure\",\n    \"movies\": \n        {\n            \"id\": 58,\n            \"title\": \"The Hunger Games: The Ballad of Songbirds & Snakes\",\n            \"releaseDate\": \"2024-01-25\"\n        }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/add/genre",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"add",
+						"genre"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "See Movies by Genre",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/movies-by-genre?genre=action",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"movies-by-genre"
+					],
+					"query": [
+						{
+							"key": "genre",
+							"value": "action"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Authenticated principal basic user information",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/authenticated",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"authenticated"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post authenticated JWT",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    moet requestbody in, dit kan het beste gewoon via react getest worden, waar het geintegreerd al is\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/authenticate",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"authenticate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Movie by Object",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Film naar keuze hier\",\n    // hier moet de image url, die pak je van tmdb.org en dan rechtermuisknop afbeeldingurl.https://image.tmdb.org/t/p/w1280/vlHJfLsduZiILN8eYdN57kHZTcQ.jpg en dan het einde van de reeks pakken\n    \"imageUrl\": \"vlHJfLsduZiILN8eYdN57kHZTcQ\", \n    \"director\": \"Steven Spielberg\",\n    \"releaseDate\": \"1991-01-01\",\n    // in welke bestaande genres deze film in toe voegen // leeg laten als niet werkt\n    \"genres\": [],\n    \"description\": \"Beschrijving film\",\n    //Aantal minuten\n    \"duration\": 150,\n    //Een bestaande ratings zetten (deze kan leeg laten, opgelost d.m.v. andere manier\n    \"ratings\": []\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/movie",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"movie"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get list of all Movies",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/movies",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get list of movie by title",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/movie?title=Wonka",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"movie"
+					],
+					"query": [
+						{
+							"key": "title",
+							"value": "Wonka"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get movie by ID MOVIE",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/movie/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"movie",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set rating of specific user of a movie",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/origami/rate-movie/53?rating=5",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"origami",
+						"rate-movie",
+						"53"
+					],
+					"query": [
+						{
+							"key": "rating",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "See average rating of a movie by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/movie/53/average-rating",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"movie",
+						"53",
+						"average-rating"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all rated movies by user",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/origami/rated-movies",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"origami",
+						"rated-movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get list of all users (user objecten)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/users",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user information by username",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/users/origami",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"origami"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 1,\n    \"name\": \"name\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/users/user",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/users/khalid",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"khalid"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user authority by username",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/users/origami/authorities",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"origami",
+						"authorities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete specific authority of user",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/users/sdas/authorities/ROLE_USER",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"sdas",
+						"authorities",
+						"ROLE_USER"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set favorite movies of a user by movie object requestbody and title as userId",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n        \"id\": 1,\n        \"title\": \"Inception\",\n        \"releaseDate\": \"2010-07-16\"\n    },\n    {\n        \"id\": 2,\n        \"title\": \"The Matrix\",\n        \"releaseDate\": \"1999-03-31\"\n    }\n]\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/users/Khalid/favorite-movies",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"Khalid",
+						"favorite-movies"
+					]
+				},
+				"description": "Set favorite movies of a user by movie object requestbody and title as userId"
+			},
+			"response": []
+		},
+		{
+			"name": "Get list of favorite movies of user by username",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/users/Khalid/favorite-movies",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"Khalid",
+						"favorite-movies"
+					]
+				},
+				"description": "Get list of favorite movies of user by username as in url"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete specific movie by username and list of movie objects",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n\n    //Need to put specific list of movie object to delete\n    {\n        \"id\": 1,\n        \"title\": \"Inception\",\n        \"releaseDate\": \"2010-07-16\"\n    },\n    {\n        \"id\": 2,\n        \"title\": \"The Matrix\",\n        \"releaseDate\": \"1999-03-31\"\n    }\n]\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/users/Khalid/favorite-movies",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"Khalid",
+						"favorite-movies"
+					]
+				},
+				"description": "Add list of movie objects as [\n    {\n\n    },\n]\n\nto delete"
+			},
+			"response": []
+		},
+		{
+			"name": "Add list of seen movies to user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n        \"id\": 1,\n        \"title\": \"Inception\",\n        \"releaseDate\": \"2010-07-16\"\n    },\n    {\n        \"id\": 2,\n        \"title\": \"The Matrix\",\n        \"releaseDate\": \"1999-03-31\"\n    }\n]\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/users/Khalid/seen-movies",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"Khalid",
+						"seen-movies"
+					]
+				},
+				"description": "Need to put objects as movie list"
+			},
+			"response": []
+		},
+		{
+			"name": "Get a list of movies seen by user in url",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/users/origami/seen-movies",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"origami",
+						"seen-movies"
+					]
+				},
+				"description": "Get a list of movies seen by user in url"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete movies seen of a user ",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    [{\n        \"id\": 57,\n        \"title\": \"Land of Bad\",\n        \"imageUrl\": \"bIeEMMvfzgbMBtYaEWtxrFnt6Vo.jpg\",\n        \"director\": \"Steve Job\",\n        \"releaseDate\": \"1990-01-01\",\n        \"genres\": [],\n        \"description\": \"93517\",\n        \"duration\": 90,\n        \"ratings\": []\n    }]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/users/origami/seen-movies",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"origami",
+						"seen-movies"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

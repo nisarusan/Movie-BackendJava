@@ -134,6 +134,7 @@ public class MovieService {
         movieDto.duration = movie.getDuration();
         return movieDto;
     }
+
     // Movie DTO Mapper For a Set
     public Set<MovieDto> setMovieDto(Set<Movie> movies) {
         Set<MovieDto> movieDtos = new HashSet<>();
