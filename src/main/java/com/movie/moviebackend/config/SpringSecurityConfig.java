@@ -59,16 +59,16 @@ public class SpringSecurityConfig {
                 .authorizeHttpRequests(auth ->
                                 auth
                                         // Wanneer je deze uncomments, staat je hele security open. Je hebt dan alleen nog een jwt nodig.
-//                                        .requestMatchers("/**").permitAll()
-                                        .requestMatchers(HttpMethod.POST, "/user").hasRole("ADMIN")
-                                        .requestMatchers(HttpMethod.POST, "/add/genre").hasRole("ADMIN")
-                                        .requestMatchers(HttpMethod.POST, "/setgenre/").hasRole("ADMIN")
-
-//                                        .requestMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
-//                                        .requestMatchers(HttpMethod.POST, "/users/**").hasRole("ADMIN")
-//                                        .requestMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
-                                        // Je mag meerdere paths tegelijk definieren
-                                        .requestMatchers("/authenticated", "/authenticate", "/movies" "/").hasAnyRole("ADMIN", "USER")
+                                        .requestMatchers("/**").permitAll()
+//                                        .requestMatchers(HttpMethod.POST, "/user").hasRole("ADMIN")
+//                                        .requestMatchers(HttpMethod.POST, "/add/genre").hasRole("ADMIN")
+//                                        .requestMatchers(HttpMethod.POST, "/setgenre/").hasRole("ADMIN")
+//
+////                                        .requestMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
+////                                        .requestMatchers(HttpMethod.POST, "/users/**").hasRole("ADMIN")
+////                                        .requestMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
+//                                        // Je mag meerdere paths tegelijk definieren
+//                                        .requestMatchers("/authenticated", "/authenticate", "/movies", "/").hasAnyRole("ADMIN", "USER")
                                         .requestMatchers("/authenticated").authenticated()
                                         .requestMatchers("/authenticate").permitAll()
                                         .anyRequest().denyAll()
