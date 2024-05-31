@@ -22,6 +22,9 @@ public class UserDto {
     public Set<Movie> moviesSeen = new HashSet<>();
     public Set<Movie> favoriteMovie = new HashSet<>();
 
+
+
+    //getter and setters made purely for test units
     public String getUsername() {
         return username;
     }
