@@ -57,4 +57,25 @@ class GenreServiceTest {
         assertEquals(genreDto.name, result.name);
         assertEquals(genreDto.id, result.id);
     }
+
+    @Test
+    @DisplayName("Test getMoviesByGenre")
+    void testGetMoviesByGenre() {
+        String genreName = "Action";
+        Set<Movie> movies = new HashSet<>();
+        movies.add(new Movie());
+        movies.add(new Movie());
+
+        when(genreRepository.findMoviesByGenreName(genreName)).thenReturn(movies);
+
+        Set<MovieDto> movieDtos = new HashSet<>();
+        movieDtos.add(new MovieDto());
+        movieDtos.add(new MovieDto());
+
+        when(movieService.setMovieDto(movies)).thenReturn(movieDtos);
+
+        Set<MovieDto> result = genreService.getMoviesByGenre(genreName);
+
+        assertEquals(movieDtos.size(), result.size());
+    }
 }
