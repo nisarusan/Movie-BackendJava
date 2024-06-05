@@ -61,10 +61,26 @@ public class SpringSecurityConfig {
                                         // Wanneer je deze uncomments, staat je hele security open. Je hebt dan alleen nog een jwt nodig.
                                         .requestMatchers("/**").permitAll()
 //                                        .requestMatchers(HttpMethod.POST, "/user").hasRole("ADMIN")
-//                                        .requestMatchers(HttpMethod.POST, "/add/genre").hasRole("ADMIN")
-//                                        .requestMatchers(HttpMethod.POST, "/setgenre/").hasRole("ADMIN")
-//
-////                                        .requestMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
+//                                        // AuthenticationController
+//                                        // UserController
+//                                        .requestMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
+//                                        .requestMatchers(HttpMethod.GET, "/users/**/authorities").hasAnyRole("ADMIN", "USER")
+//                                        .requestMatchers(HttpMethod.POST, "/users/**").hasRole("ADMIN")
+//                                        .requestMatchers(HttpMethod.PUT, "/users/**").hasRole("ADMIN")
+//                                        .requestMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
+//                                        .requestMatchers(HttpMethod.POST, "/users/**/authorities").hasRole("ADMIN")
+//                                        .requestMatchers(HttpMethod.DELETE, "/users/**/authorities/**").hasRole("ADMIN")
+//                                        .requestMatchers(HttpMethod.POST, "/users/**/favorite-movies").hasAnyRole("ADMIN", "USER")
+//                                        .requestMatchers(HttpMethod.GET, "/users/**/favorite-movies").hasAnyRole("ADMIN", "USER")
+//                                        .requestMatchers(HttpMethod.DELETE, "/users/**/favorite-movies").hasAnyRole("ADMIN", "USER")
+//                                        .requestMatchers(HttpMethod.POST, "/users/**/seen-movies").hasAnyRole("ADMIN", "USER")
+//                                        .requestMatchers(HttpMethod.GET, "/users/**/seen-movies").hasAnyRole("ADMIN", "USER")
+//                                        .requestMatchers(HttpMethod.DELETE, "/users/**/seen-movies").hasAnyRole("ADMIN", "USER")
+//                                        // MovieController
+//                                        .requestMatchers(HttpMethod.POST, "/movie").hasRole("ADMIN")
+//                                        .requestMatchers(HttpMethod.GET, "/movies").hasAnyRole("USER", "ADMIN")
+//                                        .requestMatchers(HttpMethod.GET, "/movie").hasAnyRole("USER", "ADMIN")
+                                        // GenreController
 ////                                        .requestMatchers(HttpMethod.POST, "/users/**").hasRole("ADMIN")
 ////                                        .requestMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
 //                                        // Je mag meerdere paths tegelijk definieren

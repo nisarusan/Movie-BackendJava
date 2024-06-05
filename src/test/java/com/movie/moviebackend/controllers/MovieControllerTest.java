@@ -103,7 +103,6 @@ class MovieControllerTest {
     @DisplayName("Set genres for movie")
     void setGenresForMovieTest() throws Exception {
         Set<Genre> genres = new HashSet<>();
-        genres.add(new Genre(1L, "Action"));
         movieDto.genres = genres;
 
         Mockito.when(movieService.setGenresForMovie(Mockito.anyLong(), Mockito.any(Set.class))).thenReturn(movieDto);

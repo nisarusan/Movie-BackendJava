@@ -1,6 +1,7 @@
 package com.movie.moviebackend.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -38,6 +39,7 @@ public class Movie {
 
 
 //    @Lob
+    @Size(max = 1200)
     String description;
 
     @Column

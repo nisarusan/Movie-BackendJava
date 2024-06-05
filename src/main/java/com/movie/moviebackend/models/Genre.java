@@ -22,8 +22,6 @@ public class Genre {
     private Set<Movie> movies = new HashSet<>();
 
 
-
-
     public Long getId() {
         return id;
     }
