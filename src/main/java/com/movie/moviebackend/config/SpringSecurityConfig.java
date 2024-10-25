@@ -83,7 +83,7 @@ public class SpringSecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/images/upload").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/images/download").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/images/download/{username}").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/users").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/users").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/users/{username}").hasRole("ADMIN")
 
                         // User en admin toegang tot autoriteiten en favorieten
