@@ -46,22 +46,49 @@ public class MovieService {
 
 
     //add new movies
+//    public MovieDto addMovie(MovieDto movieDto) {
+//        Movie movie = dtoToMovie(movieDto);
+//        movie.setTitle(movieDto.title);
+////        movie.setRatings(movieDto.ratings);
+//        movie.setRatings(movieDto.ratings);
+//        movie.setGenres(movieDto.genres);
+//        movie.setDescription(movieDto.description);
+//        movie.setReleaseDate(movieDto.releaseDate);
+//        movie.setDuration(movieDto.duration);
+//        movie.setImageUrl(movieDto.imageUrl);
+//        movie.setDirector(movieDto.director);
+//        repos.save(movie);
+//        movieDto.id = movie.getId();
+//        return movieDto;
+//    }
+
+    //new proberen
+    // Add new movie with handling for genres
     public MovieDto addMovie(MovieDto movieDto) {
         Movie movie = dtoToMovie(movieDto);
-        movie.setTitle(movieDto.title);
-//        movie.setRatings(movieDto.ratings);
-        movie.setRatings(movieDto.ratings);
-        movie.setGenres(movieDto.genres);
-        movie.setDescription(movieDto.description);
-        movie.setReleaseDate(movieDto.releaseDate);
-        movie.setDuration(movieDto.duration);
-        movie.setImageUrl(movieDto.imageUrl);
-        movie.setDirector(movieDto.director);
+
+        // Fetch and set only existing genres
+        Set<Genre> movieGenres = new HashSet<>();
+        for (Genre genre : movieDto.getGenres()) {
+            Optional<Genre> existingGenreOptional = genreRepository.findByNameIgnoreCase(genre.getName());
+            existingGenreOptional.ifPresent(movieGenres::add); // Add only existing genres
+        }
+
+        movie.setGenres(movieGenres);
+        movie.setTitle(movieDto.getTitle());
+        movie.setRatings(movieDto.getRatings());
+        movie.setDescription(movieDto.getDescription());
+        movie.setReleaseDate(movieDto.getReleaseDate());
+        movie.setDuration(movieDto.getDuration());
+        movie.setImageUrl(movieDto.getImageUrl());
+        movie.setDirector(movieDto.getDirector());
+
+        // Save movie
         repos.save(movie);
-        movieDto.id = movie.getId();
+        movieDto.setId(movie.getId());
+
         return movieDto;
     }
-
 
     //get all Movies
     public List<MovieDto> allMovies() {

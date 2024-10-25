@@ -284,7 +284,7 @@ public class UserService {
         dto.apikey = user.getApikey();
         dto.email = user.getEmail();
         dto.authorities = user.getAuthorities();
-        dto.profileUrl = user.getProfileUrl();
+//        dto.profileUrl = user.getProfileUrl();
         dto.address = user.getAddress();
         dto.moviesSeen = user.getMoviesSeen();
         dto.moviesRated = user.getMoviesRated();
@@ -302,7 +302,7 @@ public class UserService {
         user.setEnabled(userDto.getEnabled());
         user.setApikey(userDto.getApikey());
         user.setEmail(userDto.getEmail());
-        user.setProfileUrl(userDto.getProfileUrl());
+//        user.setProfileUrl(userDto.getProfileUrl());
         user.setMoviesRated(userDto.getMoviesRated());
         user.setFavoriteMovie(userDto.getFavoriteMovie());
         user.setMoviesSeen(userDto.getMoviesSeen());

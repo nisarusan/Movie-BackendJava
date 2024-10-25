@@ -49,18 +49,34 @@ public class User {
     private Set<Rating> ratings = new HashSet<>();
 
 
-    @Column(name = "movies_rated")
-    @OneToMany
+    // One To many werkte niet. Dit werkt en nu kan elk user een film favorieten bevatten. Bug opgelost
+    @ManyToMany
+    @JoinTable(
+            name = "user_movies_rated",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "movie_id")
+    )
     private Set<Movie> moviesRated = new HashSet<>();
 
-    @Column(name = "movie_seen")
-    @OneToMany
+    @ManyToMany
+    @JoinTable(
+            name = "user_movies_seen",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "movie_id")
+    )
     private Set<Movie> moviesSeen = new HashSet<>();
 
-    @Column(name = "favorite_movie")
-    @OneToMany
+    @ManyToMany
+    @JoinTable(
+            name = "user_favorite_movies",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "movie_id")
+    )
     private Set<Movie> favoriteMovie = new HashSet<>();
 
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private ImageInfo imageInfo;
 
     public String getUsername() {
         return username;
@@ -160,5 +176,12 @@ public class User {
 
     public void setRatings(Set<Rating> ratings) {
         this.ratings = ratings;
+    }
+    public ImageInfo getImageInfo() {
+        return imageInfo;
+    }
+
+    public void setImageInfo(ImageInfo imageInfo) {
+        this.imageInfo = imageInfo;
     }
 }
