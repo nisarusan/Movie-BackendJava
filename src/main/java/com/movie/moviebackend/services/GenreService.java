@@ -32,6 +32,7 @@ public class GenreService {
     }
 
 
+
     // Method to get all movies associated with a specific genre
     public Set<MovieDto> getMoviesByGenre(String genreName) {
        Set<Movie> listMovies =  repos.findMoviesByGenreName(genreName);

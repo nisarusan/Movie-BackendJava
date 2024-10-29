@@ -62,16 +62,14 @@ public class MovieService {
 //        return movieDto;
 //    }
 
-    //new proberen
-    // Add new movie with handling for genres
     public MovieDto addMovie(MovieDto movieDto) {
         Movie movie = dtoToMovie(movieDto);
 
-        // Fetch and set only existing genres
+        // Hier worden de genres opgehaald zoals je al deed
         Set<Genre> movieGenres = new HashSet<>();
         for (Genre genre : movieDto.getGenres()) {
             Optional<Genre> existingGenreOptional = genreRepository.findByNameIgnoreCase(genre.getName());
-            existingGenreOptional.ifPresent(movieGenres::add); // Add only existing genres
+            existingGenreOptional.ifPresent(movieGenres::add);
         }
 
         movie.setGenres(movieGenres);
@@ -83,9 +81,11 @@ public class MovieService {
         movie.setImageUrl(movieDto.getImageUrl());
         movie.setDirector(movieDto.getDirector());
 
-        // Save movie
+        // Sla de movie op; de ID wordt hier automatisch ingesteld door de database
         repos.save(movie);
-        movieDto.setId(movie.getId());
+
+        // Hier moet je de ID ophalen die door de database is ingesteld
+//        movieDto.setId(movie.getId()); // Geen handmatige toewijzing van ID hier
 
         return movieDto;
     }

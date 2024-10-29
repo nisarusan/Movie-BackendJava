@@ -49,7 +49,7 @@ public class SpringSecurityConfig {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
 
-                                //Wil je alles even testen zonder authorisatie
+                                //Wil je alles even testen zonder authorisatie en bugs, zet dan alles uit en alleen de anyRequest Permitall
 //                        .anyRequest().permitAll()
 
                                 // Alleen admin-toegang voor het toevoegen van genres
@@ -72,7 +72,8 @@ public class SpringSecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "/movie/{movieId}").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
 
                                 // User en admin toegang voor het beoordelen van films en gemiddelde beoordelingen
-                                .requestMatchers(HttpMethod.POST, "/{username}/rate-movie/{movieId}").permitAll() //Bug, weet niet waarom.. pff tijdelijke optie
+                                .requestMatchers(HttpMethod.POST, "/{username}/rate-movie/{movieId}").permitAll() // Wil je toch ales testen voor post man om zeker te zijn, gebruik permitAll//Bug, weet niet waarom.. pff tijdelijke optie
+
                                 .requestMatchers(HttpMethod.GET, "/{username}/has-rated/{movieId}").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/movie/{movieId}/average-rating").permitAll() //Bug in de rating..
 

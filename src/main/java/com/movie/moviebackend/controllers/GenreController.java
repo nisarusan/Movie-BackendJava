@@ -21,7 +21,7 @@ public class GenreController {
     public GenreController(GenreService service) {
         this.service = service;
     }
-
+    @PostMapping("add/genre")
     public ResponseEntity<GenreDto> addGenre(@RequestBody GenreDto genreDto) {
         GenreDto savedGenreDto = service.addNewGenre(genreDto);
         URI uri = URI.create(
