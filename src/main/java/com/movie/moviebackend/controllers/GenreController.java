@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -27,9 +28,15 @@ public class GenreController {
                 ServletUriComponentsBuilder.fromCurrentRequestUri().path("/" + savedGenreDto.id).toUriString());
         return ResponseEntity.created(uri).body(savedGenreDto);
     }
+
     @GetMapping("/movies-by-genre")
     public ResponseEntity<Set<MovieDto>> getMoviesByGenre(@RequestParam String genre) {
         Set<MovieDto> movies = service.getMoviesByGenre(genre);
         return ResponseEntity.ok().body(movies);
+    }
+
+    @GetMapping("/genres")
+    public List<GenreDto> getAllGenres() {
+        return service.getAllGenres();
     }
 }

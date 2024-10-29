@@ -8,7 +8,9 @@ import com.movie.moviebackend.repositories.GenreRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class GenreService {
@@ -49,5 +51,13 @@ public class GenreService {
         genre.setId(genreDto.id);
         genre.setName(genreDto.name);
         return genre;
+    }
+
+    // Method to get a list of all genres
+    public List<GenreDto> getAllGenres() {
+        List<Genre> genres = repos.findAll(); // Fetch all genres from the repository
+        return genres.stream()
+                .map(this::genreToDto) // Convert each Genre to GenreDto
+                .collect(Collectors.toList()); // Collect results into a List
     }
 }
