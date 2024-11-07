@@ -40,7 +40,6 @@ public class RatingController {
     }
 
 
-
     //All Rated movies by User
     @GetMapping("/{username}/rated-movies")
     public ResponseEntity<Set<MovieDto>> getRatedMoviesByUsername(@PathVariable String username) {
@@ -50,6 +49,16 @@ public class RatingController {
         } catch (RuntimeException e) {
             // Handle exception, e.g., user not found or other business logic errors
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    @DeleteMapping("/{username}/rated-movies/{movieId}")
+    public ResponseEntity<String> deleteRatedMovie(@PathVariable String username, @PathVariable Long movieId) {
+        try {
+            ratingService.deleteRatedMovie(username, movieId);
+            return ResponseEntity.ok("De beoordeling voor deze film is verwijderd!");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Beoordeling niet gevonden of kon niet worden verwijderd.");
         }
     }
 

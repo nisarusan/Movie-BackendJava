@@ -50,18 +50,28 @@ public class SpringSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
 
                                 //Wil je alles even testen zonder authorisatie en bugs, zet dan alles uit en alleen de anyRequest Permitall
-//                        .anyRequest().permitAll()
-
-                                // Alleen admin-toegang voor het toevoegen van genres
-                                .requestMatchers(HttpMethod.POST, "/add/genre").permitAll() //Bug.. kan niet uitvoggelen waarom.. jwt token is correct.
-                                .requestMatchers(HttpMethod.GET, "/genres").hasAnyRole("USER", "ADMIN")
-
-                                // User en admin toegang voor het opvragen van films per genre
-                                .requestMatchers(HttpMethod.GET, "/movies-by-genre").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+//                                .anyRequest().permitAll()
 
                                 // Toegang voor iedereen tot de authenticatie endpoints
                                 .requestMatchers(HttpMethod.GET, "/authenticated").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/authenticate").permitAll()
+
+                                // User en admin toegang voor het beoordelen van films en gemiddelde beoordelingen
+                                .requestMatchers(HttpMethod.POST, "/{username}/rate-movie/{movieId}").permitAll() // Wil je toch ales testen voor post man om zeker te zijn, gebruik permitAll//Bug, weet niet waarom.. tijdelijke optie
+
+                                .requestMatchers(HttpMethod.GET, "/{username}/has-rated/{movieId}").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/movie/{movieId}/average-rating").permitAll()
+
+                                // Toegang voor user en admin tot beoordeelde films
+                                .requestMatchers(HttpMethod.GET, "/{username}/rated-movies").permitAll()
+                                .requestMatchers(HttpMethod.DELETE, "/{username}/rated-movies/{movieId}").permitAll()
+
+                                // Alleen admin-toegang voor het toevoegen van genres
+                                .requestMatchers(HttpMethod.POST, "/add/genre").permitAll() //Bug.. kan niet uitvogelen waarom.. jwt token is correct.
+                                .requestMatchers(HttpMethod.GET, "/genres").hasAnyRole("USER", "ADMIN")
+
+                                // User en admin toegang voor het opvragen van films per genre
+                                .requestMatchers(HttpMethod.GET, "/movies-by-genre").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
 
                                 // Alleen admin toegang voor het toevoegen van films
                                 .requestMatchers(HttpMethod.POST, "/movie").hasRole("ADMIN")
@@ -71,14 +81,8 @@ public class SpringSecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "/movie").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                                 .requestMatchers(HttpMethod.GET, "/movie/{movieId}").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
 
-                                // User en admin toegang voor het beoordelen van films en gemiddelde beoordelingen
-                                .requestMatchers(HttpMethod.POST, "/{username}/rate-movie/{movieId}").permitAll() // Wil je toch ales testen voor post man om zeker te zijn, gebruik permitAll//Bug, weet niet waarom.. pff tijdelijke optie
 
-                                .requestMatchers(HttpMethod.GET, "/{username}/has-rated/{movieId}").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/movie/{movieId}/average-rating").permitAll() //Bug in de rating..
 
-                                // Toegang voor user en admin tot beoordeelde films
-                                .requestMatchers(HttpMethod.GET, "/{username}/rated-movies").permitAll() //Bug in de rating..
                                 // Alleen admin toegang tot gebruikersbeheer
                                 .requestMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.GET, "/users/{username}").hasAnyRole("USER", "ADMIN")

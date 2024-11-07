@@ -38,12 +38,6 @@ public class RatingService {
         Movie existingMovie = movieService.getMovieById(movieId);
 
         if (existingUser != null && existingMovie != null) {
-//            // Check if the user has already rated the movie this don't work.. need find out
-//            if (existingUser.getMoviesRated().stream().anyMatch(movie -> movie.getId().equals(movieId))) {
-//                throw new RuntimeException("User has already rated this movie.");
-//            } else {
-//                existingUser.getMoviesRated().add(existingMovie);
-//            }
 
             // Create a new Rating entity
             Rating newRating = new Rating();
@@ -118,6 +112,23 @@ public class RatingService {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    //delete rating of user
+    public void deleteRatedMovie(String username, Long movieId) {
+        User existingUser = userRepos.findById(username)
+                .orElseThrow(() -> new RuntimeException("User not found with ID: " + username));
+
+        if (existingUser == null) {
+            throw new RuntimeException("Gebruiker niet gevonden");
+        }
+
+        Rating rating = repos.findByUserAndMovie(existingUser, movieService.getMovieById(movieId));
+        if (rating == null) {
+            throw new RuntimeException("Beoordeling niet gevonden");
+        }
+
+        repos.delete(rating);
     }
 
 
